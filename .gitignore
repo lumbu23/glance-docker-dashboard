@@ -1,0 +1,5 @@
+.env
+config/docker-data/overrides.yml
+__pycache__/
+*.pyc
+.DS_Store

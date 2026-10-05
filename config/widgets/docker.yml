@@ -1,0 +1,364 @@
+- type: custom-api
+  title: Docker
+  cache: 1s
+  url: http://docker-data:8080/docker-stacks
+
+  template: |
+    {{ if ne (.JSON.String "error") "" }}
+
+      <div class="color-negative">
+        {{ .JSON.String "error" }}
+      </div>
+
+    {{ else }}
+
+      {{ range .JSON.Array "groups" }}
+
+        <div
+          class="size-h6 color-subdue"
+          style="
+            text-transform:uppercase;
+            letter-spacing:0.08em;
+            margin-top:14px;
+            margin-bottom:8px;
+          "
+        >
+          {{ .String "name" }}
+        </div>
+
+        <div style="
+          display:grid;
+          grid-template-columns:repeat(6,minmax(0,1fr));
+          column-gap:26px;
+          row-gap:10px;
+        ">
+
+          {{ range .Array "stacks" }}
+
+            <div
+              data-docker-stack="{{ .String "display_name" }}"
+              style="
+              min-width:0;
+
+              {{ if or
+                  (eq (.String "service.type") "sonarr")
+                  (eq (.String "service.type") "radarr")
+              }}
+                grid-column:span 3;
+    border:1px solid var(--color-separator);
+                border-radius:7px;
+                padding:10px 12px;
+
+              {{ else if eq (.String "service.type") "sportarr" }}
+                grid-column:span 3;
+    border:1px solid var(--color-separator);
+                border-radius:7px;
+                padding:10px 12px;
+
+              {{ else if eq (.String "service.type") "plex" }}
+                grid-column:span 2;
+    {{ else if eq (.String "service.type") "jellyfin" }}
+                grid-column:span 2;
+    {{ else if eq (.String "service.type") "immich" }}
+                grid-column:span 2;
+    {{ else if eq (.String "service.type") "paperless" }}
+                grid-column:span 2;
+    {{ else if eq (.String "service.type") "dispatcharr" }}
+                grid-column:span 2;
+    {{ else if eq (.String "service.type") "tdarr" }}
+                grid-column:span 2;
+    {{ else if eq (.String "service.type") "qbittorrent" }}
+                grid-column:span 3;
+    border:1px solid var(--color-separator);
+                border-radius:7px;
+                padding:10px 12px;
+
+              {{ else if eq (.String "service.type") "prowlarr" }}
+                grid-column:span 2;
+    {{ else if eq (.String "service.type") "bazarr" }}
+                grid-column:span 2;
+    {{ else if eq (.String "service.type") "uptime-kuma" }}
+                grid-column:span 2;
+    {{ else if eq (.String "display_name") "TrueNAS Storage Monitor" }}
+                grid-column:span 2;
+    {{ else if eq (.String "service.type") "scrutiny" }}
+                grid-column:span 2;
+    {{ else if eq (.String "display_name") "Netdata" }}
+                grid-column:span 2;
+    {{ else if eq (.String "display_name") "Beszel" }}
+                grid-column:span 2;
+    {{ else if eq (.String "display_name") "Glances" }}
+                grid-column:span 2;
+    {{ else if eq (.String "service.type") "dockhand" }}
+                grid-column:span 2;
+    {{ else if eq (.String "service.type") "tailscale" }}
+                grid-column:span 2;
+    {{ else if eq (.String "service.type") "peanut" }}
+                grid-column:span 2;
+    {{ else }}
+                grid-column:span 2;
+    {{ end }}
+            ">
+
+              <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                min-width:0;
+              ">
+
+                <div
+                  class="text-truncate"
+                  style="
+                    min-width:0;
+                    display:flex;
+                    align-items:center;
+                  "
+                >
+
+                  {{ if gt (.Int "portal_port") 0 }}
+
+                    <a
+                      href="#"
+                      class="docker-portal-link"
+                      data-portal-port="{{ .Int "portal_port" }}"
+                      data-portal-path="{{ .String "portal_path" }}"
+                      data-portal-scheme="{{ .String "portal_scheme" }}"
+                      style="
+                        display:flex;
+                        align-items:center;
+                        min-width:0;
+                        text-decoration:none;
+                        color:inherit;
+                        cursor:pointer;
+                      "
+                      title="Open {{ .String "display_name" }}"
+                    >
+
+                      {{ if ne (.String "icon") "" }}
+
+                        <img
+                          src="{{ .String "icon" }}"
+                          alt=""
+                          width="22"
+                          height="22"
+                          loading="lazy"
+                          style="
+                            width:22px;
+                            height:22px;
+                            object-fit:contain;
+                            margin-right:9px;
+                            flex:none;
+                          "
+                        >
+
+                      {{ else }}
+
+                        <span
+                          style="
+                            width:22px;
+                            height:22px;
+                            margin-right:9px;
+                            flex:none;
+                          "
+                        ></span>
+
+                      {{ end }}
+
+                      <span class="color-highlight">
+                        {{ .String "display_name" }}
+                      </span>
+
+                    </a>
+
+                  {{ else }}
+
+                    {{ if ne (.String "icon") "" }}
+
+                      <img
+                        src="{{ .String "icon" }}"
+                        alt=""
+                        width="22"
+                        height="22"
+                        loading="lazy"
+                        style="
+                          width:22px;
+                          height:22px;
+                          object-fit:contain;
+                          margin-right:9px;
+                          flex:none;
+                        "
+                      >
+
+                    {{ else }}
+
+                      <span
+                        style="
+                          width:22px;
+                          height:22px;
+                          margin-right:9px;
+                          flex:none;
+                        "
+                      ></span>
+
+                    {{ end }}
+
+                    <span class="color-highlight">
+                      {{ .String "display_name" }}
+                    </span>
+
+                  {{ end }}
+
+                </div>
+
+
+                <div
+                  class="docker-card-controls"
+                  style="
+                    display:flex;
+                    align-items:center;
+                    gap:8px;
+                    margin-left:8px;
+                    flex:none;
+                  "
+                >
+
+                  {{ if eq (.String "service.type") "dockhand" }}
+
+                    <button
+                      type="button"
+                      class="docker-check-updates"
+                      title="Check for app updates"
+                      aria-label="Check for app updates"
+                      style="
+                        appearance:none;
+                        border:0;
+                        padding:0;
+                        margin:0;
+                        background:none;
+                        color:var(--color-text-subdue);
+                        font:inherit;
+                        line-height:1;
+                        cursor:pointer;
+                        opacity:.7;
+                        flex:none;
+                      "
+                    >⟳</button>
+
+                  {{ end }}
+
+                  {{ if and
+                      (.Bool "update_available")
+                      (ne (.String "service.type") "dockhand")
+                      (ne (.String "name") "glance")
+                  }}
+
+                    <button
+                      type="button"
+                      class="docker-update"
+                      data-update-stack="{{ .String "name" }}"
+                      title="Update {{ .String "display_name" }}"
+                      aria-label="Update {{ .String "display_name" }}"
+                      style="
+                        appearance:none;
+                        border:0;
+                        padding:0;
+                        margin:0;
+                        background:none;
+                        color:#7aa2f7;
+                        font:inherit;
+                        font-weight:700;
+                        line-height:1;
+                        cursor:pointer;
+                        flex:none;
+                      "
+                    >↑</button>
+
+                  {{ end }}
+
+                  {{ if and
+                      (ne (.String "service.type") "dockhand")
+                      (ne (.String "name") "glance")
+                  }}
+
+                    <button
+                      type="button"
+                      class="docker-redeploy"
+                      data-redeploy-stack="{{ .String "name" }}"
+                      title="Redeploy {{ .String "display_name" }}"
+                      aria-label="Redeploy {{ .String "display_name" }}"
+                      style="
+                        appearance:none;
+                        border:0;
+                        padding:0;
+                        margin:0;
+                        background:none;
+                        color:var(--color-text-subdue);
+                        font:inherit;
+                        line-height:1;
+                        cursor:pointer;
+                        opacity:.7;
+                        flex:none;
+                      "
+                    >↻</button>
+
+                  {{ end }}
+
+                  {{ if eq (.String "color") "green" }}
+
+                    <span
+                      class="docker-status"
+                      style="
+                        color:#7fd88f;
+                        flex:none;
+                      "
+                      title="Running and healthy"
+                    >
+                      ●
+                    </span>
+
+                  {{ else if eq (.String "color") "yellow" }}
+
+                    <span
+                      class="docker-status"
+                      style="
+                        color:#e5c07b;
+                        flex:none;
+                        white-space:nowrap;
+                      "
+                      title="Degraded"
+                    >
+                      ● {{ .Int "running" }}/{{ .Int "containers" }}
+                    </span>
+
+                  {{ else }}
+
+                    <span
+                      class="docker-status"
+                      style="
+                        color:#e06c75;
+                        flex:none;
+                      "
+                      title="Stopped"
+                    >
+                      ●
+                    </span>
+
+                  {{ end }}
+
+                </div>
+
+              </div>
+
+
+              <!-- Service details are rendered by docker-live.js from /docker-stacks. -->
+
+            </div>
+
+          {{ end }}
+
+        </div>
+
+      {{ end }}
+
+    {{ end }}

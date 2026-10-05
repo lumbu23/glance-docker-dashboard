@@ -1,0 +1,96 @@
+# Optional display customizations for the Glance Docker Dashboard.
+#
+# Keys normally correspond to Docker container/stack names.
+# Remove anything you do not use and add entries for your own services.
+
+groups:
+  qbittorrent: Downloads
+  sonarr: Downloads
+  radarr: Downloads
+  prowlarr: Downloads
+  bazarr: Downloads
+
+  plex: Media
+  jellyfin: Media
+  tautulli: Media
+  immich: Media
+
+  netdata: Monitoring
+  scrutiny: Monitoring
+  beszel: Monitoring
+
+  tailscale: Infrastructure
+
+  glance-dashboard: Tools
+  paperless: Tools
+
+names:
+  qbittorrent: qBittorrent
+  paperless: Paperless-ngx
+  glance-dashboard: Glance
+
+icons:
+  qbittorrent: qbittorrent
+  sonarr: sonarr
+  radarr: radarr
+  prowlarr: prowlarr
+  bazarr: bazarr
+
+  plex: plex
+  jellyfin: jellyfin
+  tautulli: tautulli
+  immich: immich
+
+  netdata: netdata
+  scrutiny: scrutiny
+  tailscale: tailscale
+
+  glance-dashboard: glance
+
+portals:
+  glance-dashboard:
+    port: 8080
+    path: /
+
+  plex:
+    port: 32400
+    path: /web
+
+  jellyfin:
+    port: 8096
+    path: /
+
+  sonarr:
+    port: 8989
+    path: /
+
+  radarr:
+    port: 7878
+    path: /
+
+  prowlarr:
+    port: 9696
+    path: /
+
+  qbittorrent:
+    port: 8080
+    path: /
+
+  tautulli:
+    port: 8181
+    path: /
+
+  immich:
+    port: 2283
+    path: /
+
+  netdata:
+    port: 19999
+    path: /
+
+  paperless:
+    port: 8000
+    path: /
+
+  tailscale:
+    disabled: true

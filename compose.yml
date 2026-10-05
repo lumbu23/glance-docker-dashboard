@@ -1,0 +1,27 @@
+services:
+  docker-data:
+    build:
+      context: ./docker-data
+    container_name: glance-docker-data
+    restart: unless-stopped
+
+    ports:
+      - "30083:8080"
+
+    env_file:
+      - .env
+
+    environment:
+      TZ: "${TZ:-UTC}"
+      OVERRIDES_FILE: "/config/overrides.yml"
+
+    volumes:
+      - ./config/docker-data/overrides.yml:/config/overrides.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    # If optional integrations are addressed by Docker DNS names
+    # such as http://sonarr:8989, add the appropriate external
+    # Docker networks here.
